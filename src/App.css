@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+form {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
+}
+
+table {
+  border-collapse: collapse;
+  display: block;
+  margin: 50px auto;
+  max-width: 393px;
+  border: 1px solid black;
+}
+
+.TableCell {
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  padding: 10px;
+  width: 110px;
+  height: 39px;
+}
