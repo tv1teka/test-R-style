@@ -1,13 +1,10 @@
 import {makeAutoObservable} from "mobx"
 
+
 class Policies {
     constructor() {
         makeAutoObservable(this)
     }
-
-    // bmi() {
-    //     result = m/h(metr)*2
-    // }
 
     Data =  [
         {
@@ -64,8 +61,14 @@ class Policies {
             min_age:18,
             max_age:65,
             risks:["Смерть в результате несчастного случая", "Инвалидность I, II, или II степени по любой причине"]
-        }
+        }   
     ]
+    
+    sortPolicies = (bmi, age) => {
+        return this.Data.filter(police => police.low < bmi && police.high > bmi
+        && police.min_age < age && police.max_age > age)
+
+    }
 }
 
 export default new Policies()

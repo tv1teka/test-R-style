@@ -10,7 +10,6 @@ const App = () => {
      {/* <Counter/>
      <ToDo/> */}
      <InputForm/>
-     <PoliciesList/>
     </div>
   );
 }
