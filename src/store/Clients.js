@@ -8,13 +8,11 @@ class Clients {
     birthday_date = ""
     calculate = false
     selected = 0
-    checked = false
     duration = 0
     premium = 0
     fullPremium = 0
     startDate = new Date()
     endingDate = new Date()
-    Date = ""
     complete = false;
 
     constructor() {
@@ -70,11 +68,15 @@ class Clients {
         return this.fullPremium = this.duration * this.premium
     }
 
+    get policeId() {
+        return !!this.selected
+    }
+
     selectedPolice(police) {
         console.log("Полученный полис = " + police);
         this.selected = police.id
-        this.checked = !this.checked
         this.premium = police.premia
+        this.duration = (police.min + police.max)/2
         console.log("Селектор равен ", this.selected, this.premium);
     }
 

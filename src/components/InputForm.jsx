@@ -36,11 +36,11 @@ const InputForm = observer(() => {
         <table>
             <tbody>
                 {Clients.calculate ? Policies.sortPolicies(Clients.calculateBmi, Clients.calculateAge).map(item =>
-                    <tr className="Policies" key={item.id}>
-                        <td className="TableCell"><input type="checkbox" value = {item.id} onChange={() => Clients.selectedPolice(item)}/></td>
-                        <td className="TableCell">{item.name}</td>
-                        <td className="TableCell">{item.premia}</td>
-                        <td className="TableCell">{item.sum}</td>
+                    <tr className="policy" key={item.id}>
+                        <td className="table-cell"><input type="checkbox" value = {item.id} onChange={() => Clients.selectedPolice(item)}/></td>
+                        <td className="table-cell">{item.name}</td>
+                        <td className="table-cell">{item.premia}</td>
+                        <td className="table-cell">{item.sum}</td>
                     </tr>
                 ) : null}
             </tbody>
@@ -49,7 +49,7 @@ const InputForm = observer(() => {
         <div className="registration" key={item.id}>
             <textarea className="textarea" value={item.risks} readOnly/>
             <p>Полис длительностью {Clients.duration} месяцев</p>
-            <input type="range" min={item.min} max={item.max} step="1" onChange={e=> Clients.durationChange(e)}/> 
+            <input type="range" min={item.min} max={item.max} step="1" value={Clients.duration} onChange={e=> Clients.durationChange(e)}/> 
             <label>{item.min + "     " + item.max}</label><br/>
             <div>            
                 <label>
