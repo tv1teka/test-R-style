@@ -41,6 +41,9 @@ form {
   flex-direction: column;
   justify-content: center; */
 }
+input[type='number']::-webkit-inner-spin-button {
+  display: none;
+}
 
 table {
   border-collapse: collapse;
@@ -56,4 +59,18 @@ table {
   padding: 10px;
   width: 110px;
   height: 39px;
+}
+
+.registration {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  width: 393px;
+}
+.textarea {
+  width: 393px;
+  height: 110px;
+  overflow-y: hidden;
+  resize: none;
 }

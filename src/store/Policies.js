@@ -2,6 +2,7 @@ import {makeAutoObservable} from "mobx"
 
 
 class Policies {
+
     constructor() {
         makeAutoObservable(this)
     }
@@ -18,7 +19,8 @@ class Policies {
             high:25.0,
             min_age:18,
             max_age:65,
-            risks:["Смерть по любой причине", "Инвалидность I, II, или II степени по любой причине"]
+            risks:["Смерть по любой причине", "Инвалидность I, II, или II степени по любой причине"],
+            selected: false
         },
 
         {
@@ -32,7 +34,8 @@ class Policies {
             high:35.0,
             min_age:18,
             max_age:65,
-            risks:["Смерть по любой причине", "Инвалидность I, II, или II степени по любой причине"]
+            risks:["Смерть по любой причине", "Инвалидность I, II, или II степени по любой причине"],
+            selected: false
         },
 
         {
@@ -46,7 +49,8 @@ class Policies {
             high:25.0,
             min_age:18,
             max_age:65,
-            risks:["Смерть в результате несчастного случая", "Инвалидность I, II, или II степени по любой причине"]
+            risks:["Смерть в результате несчастного случая", "Инвалидность I, II, или II степени по любой причине"],
+            selected: false
         },
 
         {
@@ -60,14 +64,18 @@ class Policies {
             high:35.0,
             min_age:18,
             max_age:65,
-            risks:["Смерть в результате несчастного случая", "Инвалидность I, II, или II степени по любой причине"]
+            risks:["Смерть в результате несчастного случая", "Инвалидность I, II, или II степени по любой причине"],
+            selected: false
         }   
     ]
     
     sortPolicies = (bmi, age) => {
         return this.Data.filter(police => police.low < bmi && police.high > bmi
         && police.min_age < age && police.max_age > age)
+    }
 
+    risksOut = (id) => {
+        return this.Data.filter(police => police.id === id)
     }
 }
 

@@ -6,8 +6,16 @@ class Clients {
     weight = ""
     sex = ""
     birthday_date = ""
-    result = [];
-    calculate = false;
+    calculate = false
+    selected = 0
+    checked = false
+    duration = 0
+    premium = 0
+    fullPremium = 0
+    startDate = new Date()
+    endingDate = new Date()
+    Date = ""
+    complete = false;
 
     constructor() {
         makeAutoObservable(this)
@@ -50,6 +58,49 @@ class Clients {
     get calculateAge() {      
         return 20 
     }
+
+    durationChange(event, premium) {
+        this.duration = event.target.value
+        this.fullPremium = this.duration * premium
+        console.log("Длительность изменилась на" + this.duration);
+        console.log("Полная страховка изменилась на" + this.calculateFullPremium);
+    }
+
+    get calculateFullPremium() {
+        return this.fullPremium = this.duration * this.premium
+    }
+
+    selectedPolice(police) {
+        console.log("Полученный полис = " + police);
+        this.selected = police.id
+        this.checked = !this.checked
+        this.premium = police.premia
+        console.log("Селектор равен ", this.selected, this.premium);
+    }
+
+    startDateChange(event) {
+        this.startDate = new Date(event.target.value)
+        console.log("Дата начала изменилась на - "   + event.target.value + " " + this.startDate);
+        this.complete = true;
+    }
+
+    get calculateEndingDate() {
+        // this.endingDate = this.startDate.setMonth(this.startDate.getMonth()+12)
+        // console.log("EndDate - " + this.endingDate);
+        // // endDate.toLocaleString('ru', { year: 'numeric', month: 'numeric', day: 'numeric' });
+
+        // this.Date = this.endingDate.toLocaleString('ru',
+        // {
+        //     year: 'numeric',
+        //     month: 'numeric',
+        //     day: 'numeric'
+        // }).split(".").reverse().join("-");
+        // console.log("EndDate2 - " + this.Date);
+        // // let text = this.startDate.getFullYear() + '-' + (this.startDate.getMonth()+1)  + '-' + this.startDate.getDate( );
+        // // console.log(text);
+        // return this.Date
+    }
+
 }
 
 export default new Clients()
