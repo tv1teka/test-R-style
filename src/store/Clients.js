@@ -4,90 +4,120 @@ class Clients {
 
     height = ""
     weight = ""
-    sex = ""
+    gender = ""
     birthday_date = ""
-    calculate = false
-    policeId = 0
-    duration = 0
-    premium = 0
+
+    policyId = null
+    policyName = ""
+    duration = null
+    premium = null
     startDate = new Date()
     endingDate;
+
+    calculate = false
     complete = false;
-    policySelected = false
+    policySelected = false;
+
+    checkedId = ""
+
+    data = {
+        policyName: "",
+        policyDuration: "",
+        policyPremium: "",
+        fullInsurancePremium: 0,
+        policyStartDate: null,
+        policyEndingDate: null
+    }
 
     constructor() {
         makeAutoObservable(this)
     }
 
-    heightChange(event) {
-        this.height = +event.target.value;
-        console.log("Рост изменился на" + this.height);
-        this.calculate = false;
+    setHeight(value) {
+        this.height = +value;
         this.clearData()
     }
 
-    weightChange(event) {
-        this.weight = +event.target.value;
-        console.log("Вес изменился на" + this.weight);
-        this.calculate = false;
+    setWeight(value) {
+        this.weight = +value;
         this.clearData()
     }
 
-    sexChange(event) {
-        this.sex = event.target.value;
-        console.log("Пол изменился на" + this.sex);
-        this.calculate = false;
+    setGender(value) {
+        this.gender = value;
         this.clearData()
     }
 
-    dateChange(event) {
-        this.birthday_date = event.target.value;
-        console.log("Дата изменился на" + this.birthday_date);
-        this.calculate = false;
+    setBirthdayDate(value) {
+        this.birthday_date = value;
         this.clearData()
     }
 
-    changeFlagCalculate() {
-        console.log(this.calculateBmi, this.calculateAge);
+    changeCalculateFlag() {
         this.calculate = true;
     }
-    changeFlagSelected() {
-        this.policySelected ? this.policySelected = false: this.policySelected = false;
 
-    }
-    selectedPolice(police) {
-        this.policeId = police.id
-        this.premium = police.premia
-        this.duration = police.min
-        this.policySelected = !this.policySelected
-        console.log("Селектор равен ", this.policeId, this.premium);
+    changeCheckedFlag(id) {
+        if(id == this.checkedId) {
+            return true
+        } else {
+            return false
+        }
     }
 
-    durationChange(event) {
-        this.duration = parseInt(event.target.value)
-        console.log("Длительность изменилась на" + this.duration);
-        console.log("Полная страховка изменилась на" + this.fullPremium);
+    setPolicy(event,policy) {
+        this.checkedId = event.target.value;
+        this.policySelected = true
+
+        if (this.checkedId === policy.id) {
+            event.target.checked = true
+        } else {
+            this.policyId = policy.id
+            this.policyName = policy.name
+            this.premium = policy.premium
+            this.duration = policy.min
+        }
     }
 
-    startDateChange(event) {
-        this.startDate = new Date(event.target.value)
-        console.log("Дата начала изменилась на - "   + event.target.value + " " + this.startDate);
+    setDuration(value) {
+        this.duration = parseInt(value)
+    }
+
+    setStartDate(value) {
+        this.startDate = new Date(value)
         this.complete = true;
     }
 
     clearData() {
         this.calculate = false
-        this.policeId = null
+        this.policyId = null
         this.duration = null
         this.premium = null
         this.startDate = new Date()
         this.endingDate = new Date()
         this.complete = false;
         this.policySelected = false;
+        this.checkedId = "";
+    }
+
+    setInsuranceData() {
+        this.data.policyName = this.policyName;
+        this.data.policyDuration = this.duration;
+        this.data.policyPremium = this.premium;
+        this.data.fullInsurancePremium = this.calculateFullPremium;
+        this.data.policyStartDate = this.startDate;
+        this.data.policyEndingDate = this.calculateEndingDate;
+
+        console.log("Название полиса: " + this.data.policyName);
+        console.log("Длительность полиса: " + this.data.policyDuration);
+        console.log("Страховая премия в месяц: " + this.data.policyPremium);
+        console.log("Общая страховая премия: " + this.data.fullInsurancePremium);
+        console.log("Дата начала действия полиса: " + this.data.policyStartDate);
+        console.log("Дата окончания действия полиса: " + this.data.policyEndingDate);
     }
 
     get calculateBmi() {      
-        return Math.floor(this.weight / (this.height/100 * this.height/100)) 
+        return parseFloat(Math.floor(this.weight / (this.height/100 * this.height/100)))
     }
 
     get calculateAge() {      
@@ -99,20 +129,16 @@ class Clients {
     }
 
     get calculateEndingDate() {
-        let newDate = this.startDate
-        console.log("До setmonth startdate" + this.startDate);
-        console.log("ДлителНГСЬ" + this.duration);
-        console.log("До setmonth" + newDate);
-        newDate.setMonth(newDate.getMonth() + parseInt(this.duration))
-        console.log("neaDte = " + newDate);
-        let date = newDate.toLocaleString('ru',
+        let startDate = this.startDate
+        this.endingDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+        this.endingDate.setMonth(startDate.getMonth() + parseInt(this.duration))
+        let endingDate = this.endingDate.toLocaleString('ru',
         {
             year: 'numeric',
             month: 'numeric',
             day: 'numeric'
         }).split(".").reverse().join("-");
-        console.log(date);
-        return date
+        return endingDate
     }
 
 }

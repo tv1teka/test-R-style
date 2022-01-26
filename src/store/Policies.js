@@ -13,7 +13,7 @@ class Policies {
             name:"Защита здоровья ПЛЮС",
             min:12,
             max:24,
-            premia:2400,
+            premium:2400,
             sum:200000,
             low:18.0,
             high:25.0,
@@ -27,7 +27,7 @@ class Policies {
             name:"Защита здоровья ПЛЮС",
             min:12,
             max:24,
-            premia:2400,
+            premium:2400,
             sum:200000,
             low:25.0,
             high:35.0,
@@ -41,7 +41,7 @@ class Policies {
             name:"Защита здоровья",
             min:12,
             max:24,
-            premia:1000,
+            premium:1000,
             sum:100000,
             low:18.0,
             high:25.0,
@@ -55,7 +55,7 @@ class Policies {
             name:"Защита здоровья",
             min:12,
             max:24,
-            premia:1200,
+            premium:1200,
             sum:100000,
             low:25.0,
             high:35.0,
@@ -66,8 +66,8 @@ class Policies {
     ]
     
     filterPoliciesByBmiAndAge = (bmi, age) => {
-        return this.Data.filter(police => police.low < bmi && police.high > bmi
-        && police.min_age < age && police.max_age > age)
+        return this.Data.filter(police => police.low <= bmi && police.high >= bmi
+        && police.min_age <= age && police.max_age >= age)
     }
 
     filterPoliciesById = (id) => {
