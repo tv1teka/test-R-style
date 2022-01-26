@@ -4,9 +4,16 @@ import Clients from '../store/Clients'
 import Policies from '../store/Policies'
 
 const InputForm = observer(() => {
+
+    const changeFlagCalculate = (event) => {
+        event.preventDefault();
+        Clients.changeFlagCalculate()
+        Clients.changeFlagSelected()
+    }
+
   return (
     <div>
-        <form onSubmit={e=>Clients.formSubmit(e)}>
+        <form onSubmit={e=>changeFlagCalculate(e)}>
             <label>
                 Рост:
                 <input type="text" required value={Clients.height} onChange={e=>Clients.heightChange(e)}/>
@@ -35,7 +42,7 @@ const InputForm = observer(() => {
         <div>
         <table>
             <tbody>
-                {Clients.calculate ? Policies.sortPolicies(Clients.calculateBmi, Clients.calculateAge).map(item =>
+                {Clients.calculate ? Policies.filterPoliciesByBmiAndAge(Clients.calculateBmi, Clients.calculateAge).map(item =>
                     <tr className="policy" key={item.id}>
                         <td className="table-cell"><input type="checkbox" value = {item.id} onChange={() => Clients.selectedPolice(item)}/></td>
                         <td className="table-cell">{item.name}</td>
@@ -45,7 +52,7 @@ const InputForm = observer(() => {
                 ) : null}
             </tbody>
         </table>
-        {Policies.risksOut(Clients.selected).map(item => 
+        {Clients.policySelected ? Policies.filterPoliciesById(Clients.policeId).map(item => 
         <div className="registration" key={item.id}>
             <textarea className="textarea" value={item.risks} readOnly/>
             <p>Полис длительностью {Clients.duration} месяцев</p>
@@ -54,19 +61,20 @@ const InputForm = observer(() => {
             <div>            
                 <label>
                     Дата начала: 
-                    <input id="date" type="date" required onChange={e=>Clients.startDateChange(e)}/>
+                    <input id="date" type="date" required onChange={e=> Clients.startDateChange(e)}/>
                 </label><br/><br/>
                 <label>
                     Дата окончания: 
-                    <input type="date" required readOnly/>
+                    <input type="date" value={Clients.calculateEndingDate} required readOnly/>
                 </label><br/>
                 <h4>Полная страховая премия - {Clients.calculateFullPremium}</h4>
+                {console.log(Clients.calculateEndingDate)}
                 {Clients.complete ? 
                 <button onClick={()=>alert('Страховка оформлена успешно!')}>Оформить страховку</button>
                 : null}
             </div>
         </div>
-        )}
+        ): null}
 
     </div>
     </div>

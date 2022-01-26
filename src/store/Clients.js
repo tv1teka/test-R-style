@@ -7,13 +7,13 @@ class Clients {
     sex = ""
     birthday_date = ""
     calculate = false
-    selected = 0
+    policeId = 0
     duration = 0
     premium = 0
-    fullPremium = 0
     startDate = new Date()
-    endingDate = new Date()
+    endingDate;
     complete = false;
+    policySelected = false
 
     constructor() {
         makeAutoObservable(this)
@@ -23,30 +23,67 @@ class Clients {
         this.height = +event.target.value;
         console.log("Рост изменился на" + this.height);
         this.calculate = false;
+        this.clearData()
     }
 
     weightChange(event) {
         this.weight = +event.target.value;
         console.log("Вес изменился на" + this.weight);
         this.calculate = false;
+        this.clearData()
     }
 
     sexChange(event) {
         this.sex = event.target.value;
         console.log("Пол изменился на" + this.sex);
         this.calculate = false;
+        this.clearData()
     }
 
     dateChange(event) {
         this.birthday_date = event.target.value;
         console.log("Дата изменился на" + this.birthday_date);
         this.calculate = false;
+        this.clearData()
     }
 
-    formSubmit(event) {
+    changeFlagCalculate() {
         console.log(this.calculateBmi, this.calculateAge);
-        event.preventDefault();
         this.calculate = true;
+    }
+    changeFlagSelected() {
+        this.policySelected ? this.policySelected = false: this.policySelected = false;
+
+    }
+    selectedPolice(police) {
+        this.policeId = police.id
+        this.premium = police.premia
+        this.duration = police.min
+        this.policySelected = !this.policySelected
+        console.log("Селектор равен ", this.policeId, this.premium);
+    }
+
+    durationChange(event) {
+        this.duration = parseInt(event.target.value)
+        console.log("Длительность изменилась на" + this.duration);
+        console.log("Полная страховка изменилась на" + this.fullPremium);
+    }
+
+    startDateChange(event) {
+        this.startDate = new Date(event.target.value)
+        console.log("Дата начала изменилась на - "   + event.target.value + " " + this.startDate);
+        this.complete = true;
+    }
+
+    clearData() {
+        this.calculate = false
+        this.policeId = null
+        this.duration = null
+        this.premium = null
+        this.startDate = new Date()
+        this.endingDate = new Date()
+        this.complete = false;
+        this.policySelected = false;
     }
 
     get calculateBmi() {      
@@ -57,50 +94,25 @@ class Clients {
         return 20 
     }
 
-    durationChange(event, premium) {
-        this.duration = event.target.value
-        this.fullPremium = this.duration * premium
-        console.log("Длительность изменилась на" + this.duration);
-        console.log("Полная страховка изменилась на" + this.calculateFullPremium);
-    }
-
     get calculateFullPremium() {
-        return this.fullPremium = this.duration * this.premium
-    }
-
-    get policeId() {
-        return !!this.selected
-    }
-
-    selectedPolice(police) {
-        console.log("Полученный полис = " + police);
-        this.selected = police.id
-        this.premium = police.premia
-        this.duration = (police.min + police.max)/2
-        console.log("Селектор равен ", this.selected, this.premium);
-    }
-
-    startDateChange(event) {
-        this.startDate = new Date(event.target.value)
-        console.log("Дата начала изменилась на - "   + event.target.value + " " + this.startDate);
-        this.complete = true;
+        return this.duration * this.premium
     }
 
     get calculateEndingDate() {
-        // this.endingDate = this.startDate.setMonth(this.startDate.getMonth()+12)
-        // console.log("EndDate - " + this.endingDate);
-        // // endDate.toLocaleString('ru', { year: 'numeric', month: 'numeric', day: 'numeric' });
-
-        // this.Date = this.endingDate.toLocaleString('ru',
-        // {
-        //     year: 'numeric',
-        //     month: 'numeric',
-        //     day: 'numeric'
-        // }).split(".").reverse().join("-");
-        // console.log("EndDate2 - " + this.Date);
-        // // let text = this.startDate.getFullYear() + '-' + (this.startDate.getMonth()+1)  + '-' + this.startDate.getDate( );
-        // // console.log(text);
-        // return this.Date
+        let newDate = this.startDate
+        console.log("До setmonth startdate" + this.startDate);
+        console.log("ДлителНГСЬ" + this.duration);
+        console.log("До setmonth" + newDate);
+        newDate.setMonth(newDate.getMonth() + parseInt(this.duration))
+        console.log("neaDte = " + newDate);
+        let date = newDate.toLocaleString('ru',
+        {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric'
+        }).split(".").reverse().join("-");
+        console.log(date);
+        return date
     }
 
 }

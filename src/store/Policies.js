@@ -65,12 +65,12 @@ class Policies {
         }   
     ]
     
-    sortPolicies = (bmi, age) => {
+    filterPoliciesByBmiAndAge = (bmi, age) => {
         return this.Data.filter(police => police.low < bmi && police.high > bmi
         && police.min_age < age && police.max_age > age)
     }
 
-    risksOut = (id) => {
+    filterPoliciesById = (id) => {
         return this.Data.filter(police => police.id === id)
     }
 }
