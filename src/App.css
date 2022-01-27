@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  width: 550px;
+  margin: 0 auto;
 }
 
 input[type='number']::-webkit-inner-spin-button {
@@ -11,41 +13,44 @@ input {
   margin-left: 8px;
 }
 
-button,
-input[type='submit'] {
-  border: 1px solid black;
-  background-color: aliceblue;
-  height: 33px;
-}
-
 form {
-  max-width: 530px;
   margin: 0 auto;
 }
 
-table {
+.policies__table-body {
   border-collapse: collapse;
-  margin: 50px auto;
-  max-width: 530px;
+  margin: 0px auto;
   border: 1px solid black;
 }
-.table-cell {
+
+th {
+  background-color: aliceblue;
+}
+.policies__table-cell {
   border-bottom: 1px solid black;
   padding: 10px;
-  width: 110px;
-  height: 39px;
 }
 
-.registration {
+.policies__calculations {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  width: 530px;
+  align-items: center;
+  padding-bottom: 40px;
 }
-.textarea {
-  width: 530px;
+.policies__calculations-risks {
+  width: 100%;
   height: 80px;
   overflow-y: hidden;
   resize: none;
+}
+.button {
+  border: 1px solid black;
+  background-color: aliceblue;
+  padding: 13px;
+  border-radius: 3px;
+}
+.policies__calculations-duration {
+  margin-top: 15px;
+  margin-bottom: 0px;
+  width: 100%;
 }

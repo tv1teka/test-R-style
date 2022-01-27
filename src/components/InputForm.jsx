@@ -1,94 +1,118 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import Clients from '../store/Clients'
-import Policies from '../store/Policies'
+import InsuranceDataStorage from '../store/InsuranceDataStorage'
+import insurancePoliciesStorage from '../store/insurancePoliciesStorage'
 
 const InputForm = observer(() => {
 
     const changeFlagCalculate = (event) => {
         event.preventDefault();
-        if(Policies.filterPoliciesByBmiAndAge(Clients.calculateBmi, Clients.calculateAge).length > 0) {
-            Clients.changeCalculateFlag()
+        if(insurancePoliciesStorage.filterPoliciesByBmiAndAge(InsuranceDataStorage.calculateBmi, InsuranceDataStorage.calculateAge).length > 0) {
+            InsuranceDataStorage.changeCalculateFlag()
         } else {alert('По введенным данным не подобрано ни одного полиса')}
     }
 
-    const checkout = () => {
-        Clients.setInsuranceData()
-        alert('Вы оформили страховой полиc - ' + Clients.data.policyName);
+    const setInsuranceData = () => {
+        InsuranceDataStorage.setInsuranceData()
+        alert('Вы оформили страховой полиc - ' + InsuranceDataStorage.data.policyName);
     }
 
   return (
-    <div>
-        <h3>Введите параметры для подбора страховки:</h3>
-        <form onSubmit={e=>changeFlagCalculate(e)}>
-                Рост(см):
-                <input type="number" required onChange={e=>Clients.setHeight(e.target.value)}/><br/>
-                Вес(кг):
-                <input type="number" required onChange={e=>Clients.setWeight(e.target.value)}/><br/>
-                Пол:      
-                <input type="radio" required value="male" onChange={e=>Clients.setGender(e.target.value)}/>
-                Мужской
-                <input type="radio" required value="female" onChange={e=>Clients.setGender(e.target.value)}/>    
-                Женский<br/>
-                Дата рождения:
-                <input id="date" type="date" required value={Clients.birthday_date} onChange={e=>Clients.setBirthdayDate(e.target.value)}/><br/>
-                <input type="submit" value="Подобрать страховой полис"/>
-        </form>
-    <div>
-        {Clients.calculate && 
-        <div>
-            <h3>Подходящие страховые полисы:</h3>
-            <table>
-                <tbody>
-                    <tr className="policy">
-                            <th className="table-cell"></th>
-                            <th className="table-cell">Название полиса</th>
-                            <th className="table-cell">Страховая премия</th>
-                            <th className="table-cell">Страховое покрытие</th>
-                    </tr>
-                    {Policies.filterPoliciesByBmiAndAge(Clients.calculateBmi, Clients.calculateAge).map(item =>
-                        <tr className="policy" key={item.id}>
-                            <td className="table-cell">
-                                <input type="checkbox" 
-                                value = {item.id} 
-                                checked={Clients.changeCheckedFlag(item.id)}
-                                onChange={e => Clients.setPolicy(e,item)}/>
-                            </td>
-                            <td className="table-cell">{item.name}</td>
-                            <td className="table-cell">{item.premium}</td>
-                            <td className="table-cell">{item.sum}</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        </div>}
-        
-        {Clients.policySelected && 
-        Policies.filterPoliciesById(Clients.policyId).map(item => 
-        <div className="registration" key={item.id}>
-            <textarea className="textarea" value={item.risks} readOnly/>
-            <p>Полис длительностью {Clients.duration} месяцев</p>
+        <React.Fragment>
+            <h3>Введите параметры для подбора страховки:</h3>
+            <form onSubmit={e=>changeFlagCalculate(e)}>
+                <label>
+                    Рост(см):
+                    <input type="number" required onChange={e=>InsuranceDataStorage.setHeight(e.target.value)}/>
+                </label><br/>
+                <label>
+                    Вес(кг):
+                    <input type="number" name="contact" required onChange={e=>InsuranceDataStorage.setWeight(e.target.value)}/>
+                    </label><br/>
+                <label>    
+                    Пол:
+                    <label>
+                        <input type="radio"name="contact"  required value="male" onChange={e=>InsuranceDataStorage.setGender(e.target.value)}/>
+                        Мужской
+                    </label>
+                    <label>
+                        <input type="radio" name="contact" required value="female" onChange={e=>InsuranceDataStorage.setGender(e.target.value)}/>    
+                        Женский
+                    </label>
+                </label><br/>
+                <label>
+                    Дата рождения:
+                    <input id="date" type="date" required 
+                           value={InsuranceDataStorage.birthday_date}
+                           onChange={e=>InsuranceDataStorage.setBirthdayDate(e.target.value)}/><br/>
+                </label>
+                <input type="submit" className='button' value="Подобрать страховой полис" />
+            </form>
+            <div className='policies'>
+                {InsuranceDataStorage.calculate && 
+                <div className='policies__table'>
+                    <h3>Подходящие страховые полисы:</h3>
+                    <table className='policies__table-body'>
+                        <tbody>
+                            <tr>
+                                <th className="policies__table-cell"></th>
+                                <th className="policies__table-cell">Название полиса</th>
+                                <th className="policies__table-cell">Страховая премия</th>
+                                <th className="policies__table-cell">Страховое покрытие</th>
+                            </tr>
+                            {insurancePoliciesStorage.filterPoliciesByBmiAndAge(InsuranceDataStorage.calculateBmi, InsuranceDataStorage.calculateAge).map(item =>
+                                <tr key={item.id}>
+                                    <td className="policies__table-cell">
+                                        <input type="checkbox" 
+                                               value = {item.id} 
+                                               checked={InsuranceDataStorage.policySelected(item.id)}
+                                               onChange={() => InsuranceDataStorage.setPolicy(item)}/>
+                                    </td>
+                                    <td className="policies__table-cell">{item.name}</td>
+                                    <td className="policies__table-cell">{item.premium}</td>
+                                    <td className="policies__table-cell">{item.insuredSum}</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>}
+                
+                {!!InsuranceDataStorage.data.policyId && 
+                insurancePoliciesStorage.filterPoliciesById(InsuranceDataStorage.data.policyId).map(item => 
+                    <div className="policies__calculations" key={item.id}>
+                        <h3>Покрываемые риски:</h3>
+                        <textarea className="policies__calculations-risks" value={item.risks} readOnly/>
 
-            <input type="range" min={item.min} max={item.max} step="1"
-            value={Clients.duration} 
-            onChange={e=> Clients.setDuration(e.target.value)}/> 
-            
-            <label>{item.min + "     " + item.max}</label><br/>
-            <div>            
-                    Дата начала: 
-                    <input id="date" type="date" required onChange={e=> Clients.setStartDate(e.target.value)}/>
-                    Дата окончания: 
-                    <input type="date" value={Clients.calculateEndingDate} required readOnly/>
-                <h4>Полная страховая премия - {Clients.calculateFullPremium}</h4>
-                {Clients.complete && 
-                    <button onClick={()=>checkout()}>Оформить страховку</button>
-                }
+                        <h3>Выберите длительность и дату начала страхового полиса</h3>
+                        <input type="range" className="policies__calculations-duration" 
+                               min={item.minMonth} max={item.maxMonth} step="1"
+                               value={InsuranceDataStorage.data.policyDuration} 
+                               onChange={e=> InsuranceDataStorage.setDuration(e.target.value)}/> 
+                        
+                        <p>Полис длительностью <b>{InsuranceDataStorage.data.policyDuration}</b> месяцев</p>
+
+                        <div className='policies__calculations-date'>            
+                            <label>
+                                Дата начала:
+                                <input id="date" type="date" min={InsuranceDataStorage.calculateCurrentDate} required 
+                                       onChange={e=> InsuranceDataStorage.setStartDate(e.target.value)}/>
+                            </label><br/>
+                            <label>
+                                Дата окончания:
+                                <input type="date" value={InsuranceDataStorage.calculateEndingDate} disabled/>
+                            </label> 
+                        </div>
+
+                        <h4>Полная страховая премия - {InsuranceDataStorage.calculateFullPremium}</h4>
+                        
+                        <button className='policies__calculations-button button' disabled={!InsuranceDataStorage.fullnessСheck} 
+                                onClick={()=>setInsuranceData()}>
+                            Оформить страховку
+                        </button>
+                    </div>
+                )}
             </div>
-        </div>
-        )}
-
-    </div>
-    </div>
+        </React.Fragment>
   );
   
 })

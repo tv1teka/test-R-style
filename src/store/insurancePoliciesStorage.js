@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx"
 
 
-class Policies {
+class insurancePoliciesStorage {
 
     constructor() {
         makeAutoObservable(this)
@@ -11,63 +11,63 @@ class Policies {
         {
             id:1,
             name:"Защита здоровья ПЛЮС",
-            min:12,
-            max:24,
+            minMonth:12,
+            maxMonth:24,
             premium:2400,
-            sum:200000,
-            low:18.0,
-            high:25.0,
-            min_age:18,
-            max_age:65,
+            insuredSum:200000,
+            lowBmi:18.0,
+            highBmi:25.0,
+            minAge:18,
+            maxAge:65,
             risks:["Смерть по любой причине", "Инвалидность I, II, или II степени по любой причине"]
         },
 
         {
             id:2,
             name:"Защита здоровья ПЛЮС",
-            min:12,
-            max:24,
+            minMonth:12,
+            maxMonth:24,
             premium:2400,
-            sum:200000,
-            low:25.0,
-            high:35.0,
-            min_age:18,
-            max_age:65,
+            insuredSum:200000,
+            lowBmi:25.0,
+            highBmi:35.0,
+            minAge:18,
+            maxAge:65,
             risks:["Смерть по любой причине", "Инвалидность I, II, или II степени по любой причине"]
         },
 
         {
             id:3,
             name:"Защита здоровья",
-            min:12,
-            max:24,
+            minMonth:12,
+            maxMonth:24,
             premium:1000,
-            sum:100000,
-            low:18.0,
-            high:25.0,
-            min_age:18,
-            max_age:65,
+            insuredSum:100000,
+            lowBmi:18.0,
+            highBmi:25.0,
+            minAge:18,
+            maxAge:65,
             risks:["Смерть в результате несчастного случая", "Инвалидность I, II, или II степени по любой причине"]
         },
 
         {
             id:4,
             name:"Защита здоровья",
-            min:12,
-            max:24,
+            minMonth:12,
+            maxMonth:24,
             premium:1200,
-            sum:100000,
-            low:25.0,
-            high:35.0,
-            min_age:18,
-            max_age:65,
+            insuredSum:100000,
+            lowBmi:25.0,
+            highBmi:35.0,
+            minAge:18,
+            maxAge:65,
             risks:["Смерть в результате несчастного случая", "Инвалидность I, II, или II степени по любой причине"]
         }   
     ]
     
     filterPoliciesByBmiAndAge = (bmi, age) => {
-        return this.Data.filter(police => police.low <= bmi && police.high >= bmi
-        && police.min_age <= age && police.max_age >= age)
+        return this.Data.filter(police => police.lowBmi <= bmi && police.highBmi >= bmi
+            && police.minAge <= age && police.maxAge >= age)
     }
 
     filterPoliciesById = (id) => {
@@ -75,4 +75,4 @@ class Policies {
     }
 }
 
-export default new Policies()
+export default new insurancePoliciesStorage()
