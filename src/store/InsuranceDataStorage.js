@@ -49,7 +49,6 @@ class InsuranceDataStorage {
     }
 
     policySelected(id) {
-        console.log(typeof(id) + " " + typeof(this.data.policyId));
         if(id === this.data.policyId) {
             return true
         } else {
@@ -83,30 +82,19 @@ class InsuranceDataStorage {
         this.data.policyEndingDate = null
     }
 
-    setInsuranceData() {
-
+    setInsurancePremiumAndEndingDate() {
         this.data.fullInsurancePremium = this.calculateFullPremium
         this.data.policyEndingDate = this.calculateEndingDate;
-
-        console.log("Название полиса: " + this.data.policyName);
-        console.log("Длительность полиса: " + this.data.policyDuration);
-        console.log("Страховая премия в месяц: " + this.data.policyPremium);
-        console.log("Страховая сумма: " + this.data.policyInsuredSum);
-        console.log("Общая страховая премия: " + this.data.fullInsurancePremium);
-        console.log("Дата начала действия полиса: " + this.data.policyStartDate);
-        console.log("Дата окончания действия полиса: " + this.data.policyEndingDate);
     }
 
     get calculateBmi() {      
-
         return parseFloat(  (this.weight / (this.height/100 * this.height/100)).toFixed(1)  )
     }
 
     get calculateAge() {      
-        return 20 
-        // let date = this.birthday_date;
-        // let age = ((new Date().getTime() - new Date(date)) / (24 * 3600 * 365.25 * 1000)) | 0;   
-        // return age    
+        let date = this.birthday_date;
+        let age = ((new Date().getTime() - new Date(date)) / (24 * 3600 * 365.25 * 1000)) | 0;   
+        return age    
     }
 
     get calculateFullPremium() {
@@ -133,7 +121,6 @@ class InsuranceDataStorage {
 
             endingDate.setMonth(startDate.getMonth() + parseInt(this.data.policyDuration))
             endingDate = endingDate.toLocaleString('ru', { year: 'numeric', month: 'numeric', day: 'numeric'}).split(".").reverse().join("-")
-
             return endingDate
         } else {
             return ""

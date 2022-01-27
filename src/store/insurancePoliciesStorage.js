@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx"
 
 
-class insurancePoliciesStorage {
+class InsurancePoliciesStorage {
 
     constructor() {
         makeAutoObservable(this)
@@ -75,4 +75,4 @@ class insurancePoliciesStorage {
     }
 }
 
-export default new insurancePoliciesStorage()
+export default new InsurancePoliciesStorage()

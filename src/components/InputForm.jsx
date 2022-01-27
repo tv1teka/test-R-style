@@ -1,20 +1,28 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import InsuranceDataStorage from '../store/InsuranceDataStorage'
-import insurancePoliciesStorage from '../store/insurancePoliciesStorage'
+import InsurancePoliciesStorage from '../store/InsurancePoliciesStorage'
 
 const InputForm = observer(() => {
 
     const changeFlagCalculate = (event) => {
         event.preventDefault();
-        if(insurancePoliciesStorage.filterPoliciesByBmiAndAge(InsuranceDataStorage.calculateBmi, InsuranceDataStorage.calculateAge).length > 0) {
+        if(InsurancePoliciesStorage.filterPoliciesByBmiAndAge(InsuranceDataStorage.calculateBmi, InsuranceDataStorage.calculateAge).length > 0) {
             InsuranceDataStorage.changeCalculateFlag()
         } else {alert('По введенным данным не подобрано ни одного полиса')}
     }
 
     const setInsuranceData = () => {
-        InsuranceDataStorage.setInsuranceData()
+        InsuranceDataStorage.setInsurancePremiumAndEndingDate()
         alert('Вы оформили страховой полиc - ' + InsuranceDataStorage.data.policyName);
+        //Вывод для наглядного представления итоговых данных
+        console.log("Название полиса: " + InsuranceDataStorage.data.policyName);
+        console.log("Длительность полиса: " + InsuranceDataStorage.data.policyDuration);
+        console.log("Страховая премия в месяц: " + InsuranceDataStorage.data.policyPremium);
+        console.log("Страховая сумма: " + InsuranceDataStorage.data.policyInsuredSum);
+        console.log("Общая страховая премия: " + InsuranceDataStorage.data.fullInsurancePremium);
+        console.log("Дата начала действия полиса: " + InsuranceDataStorage.data.policyStartDate);
+        console.log("Дата окончания действия полиса: " + InsuranceDataStorage.data.policyEndingDate);
     }
 
   return (
@@ -60,7 +68,8 @@ const InputForm = observer(() => {
                                 <th className="policies__table-cell">Страховая премия</th>
                                 <th className="policies__table-cell">Страховое покрытие</th>
                             </tr>
-                            {insurancePoliciesStorage.filterPoliciesByBmiAndAge(InsuranceDataStorage.calculateBmi, InsuranceDataStorage.calculateAge).map(item =>
+                            {InsurancePoliciesStorage.filterPoliciesByBmiAndAge(InsuranceDataStorage.calculateBmi, InsuranceDataStorage.calculateAge)
+                            .map(item =>
                                 <tr key={item.id}>
                                     <td className="policies__table-cell">
                                         <input type="checkbox" 
@@ -78,7 +87,7 @@ const InputForm = observer(() => {
                 </div>}
                 
                 {!!InsuranceDataStorage.data.policyId && 
-                insurancePoliciesStorage.filterPoliciesById(InsuranceDataStorage.data.policyId).map(item => 
+                InsurancePoliciesStorage.filterPoliciesById(InsuranceDataStorage.data.policyId).map(item => 
                     <div className="policies__calculations" key={item.id}>
                         <h3>Покрываемые риски:</h3>
                         <textarea className="policies__calculations-risks" value={item.risks} readOnly/>
