@@ -2,12 +2,12 @@ import {makeAutoObservable} from "mobx"
 
 class InsuranceDataStorage {
 
-    height = ""
-    weight = ""
-    gender = ""
-    birthday_date = ""
+    height = "";
+    weight = "";
+    gender = "";
+    birthday_date = "";
 
-    calculate = false
+    calculate = false;
 
     data = {
         policyId: null,
@@ -18,7 +18,7 @@ class InsuranceDataStorage {
         policyFullInsurancePremium: null,
         policyStartDate: null,
         policyEndingDate: null
-    }
+    };
 
     constructor() {
         makeAutoObservable(this)
@@ -26,22 +26,22 @@ class InsuranceDataStorage {
 
     setHeight(value) {
         this.height = +value;
-        this.clearData()
+        this.clearData();
     }
 
     setWeight(value) {
         this.weight = +value;
-        this.clearData()
+        this.clearData();
     }
 
     setGender(value) {
         this.gender = value;
-        this.clearData()
+        this.clearData();
     }
 
     setBirthdayDate(value) {
         this.birthday_date = value;
-        this.clearData()
+        this.clearData();
     }
 
     changeCalculateFlag() {
@@ -57,29 +57,29 @@ class InsuranceDataStorage {
     }
 
     setPolicy(policy) {
-        this.data.policyId = policy.id
-        this.data.policyName = policy.name
-        this.data.policyPremium = policy.premium
-        this.data.policyInsuredSum = policy.insuredSum
-        this.data.policyDuration = policy.minMonth
-        this.data.policyStartDate = null
+        this.data.policyId = policy.id;
+        this.data.policyName = policy.name;
+        this.data.policyPremium = policy.premium;
+        this.data.policyInsuredSum = policy.insuredSum;
+        this.data.policyDuration = policy.minMonth;
+        this.data.policyStartDate = null;
     }
 
     setDuration(value) {
-        this.data.policyDuration = parseInt(value)
+        this.data.policyDuration = parseInt(value);
     }
 
     setStartDate(value) {
-        this.data.policyStartDate = new Date(value)
+        this.data.policyStartDate = new Date(value);
     }
 
     clearData() {
-        this.calculate = false
-        this.data.policyId = null
-        this.data.policyDuration = null
-        this.data.policyPremium = null
-        this.data.policyStartDate = null
-        this.data.policyEndingDate = null
+        this.calculate = false;
+        this.data.policyId = null;
+        this.data.policyDuration = null;
+        this.data.policyPremium = null;
+        this.data.policyStartDate = null;
+        this.data.policyEndingDate = null;
     }
 
     setInsurancePremiumAndEndingDate() {
@@ -88,7 +88,7 @@ class InsuranceDataStorage {
     }
 
     get calculateBmi() {      
-        return parseFloat(  (this.weight / (this.height/100 * this.height/100)).toFixed(1)  )
+        return parseFloat((this.weight / (this.height/100 * this.height/100)).toFixed(1));
     }
 
     get calculateAge() {      
@@ -98,11 +98,11 @@ class InsuranceDataStorage {
     }
 
     get calculateFullPremium() {
-        return this.data.policyDuration * this.data.policyPremium
+        return this.data.policyDuration * this.data.policyPremium;
     }
 
     get calculateCurrentDate() {
-        return new Date().toLocaleString('ru', { year: 'numeric', month: 'numeric', day: 'numeric'}).split(".").reverse().join("-")
+        return new Date().toLocaleString('ru', { year: 'numeric', month: 'numeric', day: 'numeric'}).split(".").reverse().join("-");
     }
 
     get fullnessСheck() {
@@ -116,11 +116,11 @@ class InsuranceDataStorage {
     get calculateEndingDate() {
         if(this.data.policyStartDate !== null) {
 
-            let startDate = this.data.policyStartDate
+            let startDate = this.data.policyStartDate;
             let endingDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
 
-            endingDate.setMonth(startDate.getMonth() + parseInt(this.data.policyDuration))
-            endingDate = endingDate.toLocaleString('ru', { year: 'numeric', month: 'numeric', day: 'numeric'}).split(".").reverse().join("-")
+            endingDate.setMonth(startDate.getMonth() + parseInt(this.data.policyDuration));
+            endingDate = endingDate.toLocaleString('ru', { year: 'numeric', month: 'numeric', day: 'numeric'}).split(".").reverse().join("-");
             return endingDate
         } else {
             return ""

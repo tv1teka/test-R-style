@@ -7,7 +7,7 @@ class InsurancePoliciesStorage {
         makeAutoObservable(this)
     }
 
-    Data =  [
+    Data = [
         {
             id:1,
             name:"Защита здоровья ПЛЮС",
@@ -63,15 +63,15 @@ class InsurancePoliciesStorage {
             maxAge:65,
             risks:["Смерть в результате несчастного случая", "Инвалидность I, II, или II степени по любой причине"]
         }   
-    ]
+    ];
     
     filterPoliciesByBmiAndAge = (bmi, age) => {
         return this.Data.filter(police => police.lowBmi <= bmi && police.highBmi >= bmi
-            && police.minAge <= age && police.maxAge >= age)
+            && police.minAge <= age && police.maxAge >= age);
     }
 
     filterPoliciesById = (id) => {
-        return this.Data.filter(police => police.id === id)
+        return this.Data.filter(police => police.id === id);
     }
 }
 

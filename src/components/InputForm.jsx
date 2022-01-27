@@ -25,7 +25,7 @@ const InputForm = observer(() => {
         console.log("Дата окончания действия полиса: " + InsuranceDataStorage.data.policyEndingDate);
     }
 
-  return (
+    return (
         <React.Fragment>
             <h3>Введите параметры для подбора страховки:</h3>
             <form onSubmit={e=>changeFlagCalculate(e)}>
@@ -123,7 +123,6 @@ const InputForm = observer(() => {
             </div>
         </React.Fragment>
   );
-  
 })
 
 export default InputForm;
